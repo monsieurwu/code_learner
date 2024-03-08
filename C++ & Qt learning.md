@@ -3303,6 +3303,25 @@ int main()
 
 泛型算法有上百个 先慢慢了解迭代器这个的精华
 
+### excercise
+
+![day1作业](C++ & Qt learning.assets/day1作业.JPG)
+
+```
+```
+
+
+
+
+
+
+
+![day2作业](C++ & Qt learning.assets/day2作业-17099019600551.JPG)
+
+![day3作业](C++ & Qt learning.assets/day3作业.JPG)
+
+![day4作业](C++ & Qt learning.assets/day4作业.JPG)
+
 ## Qt
 
 对平台要求低
