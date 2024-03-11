@@ -93,7 +93,7 @@ Kotlin：鉴于Kotlin现在是Android官方推荐的语言，可以考虑学习K
 
 
 
-1.安卓怎么运行
+#### 1.安卓怎么运行
 
 学会看代码
 
@@ -135,7 +135,13 @@ app->java->com.example.helloworld->MainActivity
 
 MainActivity在app->res->layout下面有一个对应的文件<img src="JAVA&Android.assets/image-20240308154246138.png" alt="image-20240308154246138" style="zoom: 80%;" />
 
-如果改MainActivity中的activity_main 然后按住alt+enter 就可以选create以恶搞新的xml文件
+如果改MainActivity中的activity_main 然后按住alt+enter 就可以选create以创建新的xml文件
+
+一般先用来进行界面初始化 控件初始化 初始化一些参数和变量 
+
+不恰当比分 这里就类似于单片机的main函数  主要活动就是在这个文件里
+
+
 
 ![image-20240308154422220](JAVA&Android.assets/image-20240308154422220.png)
 
@@ -278,7 +284,175 @@ dependencies {//关联一些默认的文件
 }
 ```
 
+#### 2.控件与界面布局
 
+控件
+
+res->layout->activity_main.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="56dp"
+            android:layout_height="190dp"
+            android:rotationX="2"
+            android:text="hello">
+
+        </TextView>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/ic_launcher"
+            android:text="yes">
+
+        </Button>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+![image-20240311155450869](JAVA&Android.assets/image-20240311155450869.png)
+
+平常用的控件：按钮 图片按钮 选择开关 文本框 编辑框 图片框
+
+java的注释跟c语言一样
+
+控件：常用的
+按钮 图片按钮
+
+到阿里的图库去找ui（iconfont.cn）下载png
+
+配色表：https://www.peisebiao.com/
+
+准备一个文件夹去放ui
+
+在Android开发中，"dp" 表示 "density-independent pixel"，即密度无关像素，它是一种用于描述屏幕上元素大小的单位。与像素（pixel）不同，dp 考虑了屏幕的密度，因此在不同密度的屏幕上，相同的 dp 值可以呈现相似大小的元素。
+
+LinearLayout代表线性布局 这是最常用和最好用的一个布局方法
+
+首先线性布局充满整个负控件的 其他布局都在线性布局里面
+
+```java
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_height="match_parent">
+```
+
+android:orientation="vertical"：设置布局方向 默认水平
+
+android:gravity="center"设置居中
+
+
+
+不要去拖动图标位置 使用代码来实现你想要的任何效果
+
+```java
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/open"
+            android:text="yes"
+            android:textColor="#ff2e63"
+            android:layout_gravity="bottom"
+            android:id="@+id/bt_1">
+
+        </Button>
+```
+
+线性布局除了button 还可以放很多的东西
+
+android:layout_gravity="bottom" 单独控制
+
+带layout的就是用来控制布局的
+
+id是用来和java文件通讯或者绑定的
+
+文本框
+
+```java
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:id="@+id/text_1"
+            android:text="OH LA LA"/>
+```
+
+`> </Button>` 和 `/>`完全相等
+
+编辑框
+
+```java
+        <EditText
+            android:layout_width="wrap_content"
+            android:hint="please input"
+            android:layout_height="wrap_content"/>
+```
+
+android:hint:让用户输入
+
+反正遇到什么就查 就百度 就chatgpt 属性什么的都可以查
+
+图片框
+
+```java
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@drawable/open"
+            android:layout_height="wrap_content"/>
+```
+
+这个src用background也可以
+
+选择开关
+
+```java
+ <SeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+按钮有很多属性
+
+
+
+
+
+
+
+控件（扩展):浏览器框 地图 进度条 单选框  复选框
+
+
+
+界面
 
 
 
