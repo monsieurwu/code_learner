@@ -665,11 +665,30 @@ activity_main.xml
 
 首先要先有一个id 才能来操作他
 
+```xml
+                    <ImageView
+                        android:layout_width="140dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/image_1"
+                        android:layout_weight="1"
+                        android:src="@drawable/light">
+
+                    </ImageView>
+```
+
+在java这边就要绑定
+
+```java
+ image_1 = findViewById(R.id.image_1);
+```
+
 单机事件有很多种实现方法 讲最简单的 最常用的一种
 
 java里面的操作 大部分都类似c的函数
 
 安卓开发 要多调试 多刷程序 因为不知道你的app程序会什么时候崩溃
+
+
 
 MainActivity.java
 
