@@ -334,7 +334,7 @@ java的注释跟c语言一样
 控件：常用的
 按钮 图片按钮
 
-到阿里的图库去找ui（iconfont.cn）下载png
+到阿里的图库去找ui下载png：https://www.iconfont.cn/
 
 配色表：https://www.peisebiao.com/
 
@@ -428,11 +428,606 @@ android:hint:让用户输入
             android:layout_height="wrap_content"/>
 ```
 
+做一个这个界面
+
+![image-20240312094706911](JAVA&Android.assets/image-20240312094706911.png)
+
+![image-20240312094658285](JAVA&Android.assets/image-20240312094658285.png)
+
+分界 就可以把它们分为很多liner_layout
+
+![image-20240312095257847](JAVA&Android.assets/image-20240312095257847.png)
+
+先搞懂线性布局 后面再讲相对布局
+
+边距margin
+
+```xml
+<ImageView
+                android:layout_width="wrap_content"
+                android:layout_margin="10dp"
+                android:src="@drawable/dolphin"
+                android:layout_height="wrap_content"/>
+```
+
+可以做成轮播图的效果 网上有教程可以找找看怎么做
+
+默认布局是水平 所以会一直往右排 改成垂直
+
+```xml
+android:orientation="vertical"
+```
+
+均分需要一个东西叫重心 当一个LinearLayout中的子视图都设置了`layout_weight`属性时，它们会按照权重来分配可用的空间。在这种情况下，`layout_weight`属性值越大，该视图占用的空间就越多。 例如，如果一个LinearLayout中有两个子视图，它们的`layout_weight`属性分别设置为1和2，那么第一个视图将占据1/3的可用空间，而第二个视图将占据2/3的可用空间。
+
+```xml
+android:layout_weight="1"
+```
+
+activity_main.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="#e3fdfd"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="#f6f6f6"
+
+            android:layout_height="251dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_margin="10dp"
+                android:src="@drawable/dolphin"
+                android:layout_height="wrap_content">
+
+            </ImageView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="140dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/image_1"
+                        android:layout_weight="1"
+                        android:src="@drawable/light">
+
+                    </ImageView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="20sp"
+                        android:layout_height="wrap_content"
+                        android:text="开关">
+
+                    </TextView>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="140dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/door_security">
+
+                    </ImageView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="20sp"
+                        android:layout_height="wrap_content"
+                        android:text="门禁">
+
+                    </TextView>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="140dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/fan">
+
+                    </ImageView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="20sp"
+                        android:layout_height="wrap_content"
+                        android:text="风扇">
+
+                    </TextView>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="140dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/temp">
+
+                    </ImageView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="20sp"
+                        android:layout_height="wrap_content"
+                        android:text="温度">
+
+                    </TextView>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="140dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/radar">
+
+                    </ImageView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="20sp"
+                        android:layout_height="wrap_content"
+                        android:text="雷达">
+
+                    </TextView>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="140dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/pm">
+
+                    </ImageView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="20sp"
+                        android:layout_height="wrap_content"
+                        android:text="pm2.5">
+
+                    </TextView>
+                </LinearLayout>
+            </LinearLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:text="测试开关"
+                android:id="@+id/btn_1"
+                android:layout_height="wrap_content">
+
+            </Button>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+后面讲事件和控件怎么绑定就也就这些控件 里面他们的id 怎么和java文件进行同步
+
+#### 3.控件与界面通讯
+
+控件的ID是java的文件与xml文件通讯的介质 类似于控件的号码牌（唯一）
+
+常用控件：
+
+按钮：按钮的单击事件
+
+首先要先有一个id 才能来操作他
+
+单机事件有很多种实现方法 讲最简单的 最常用的一种
+
+java里面的操作 大部分都类似c的函数
+
+安卓开发 要多调试 多刷程序 因为不知道你的app程序会什么时候崩溃
+
+MainActivity.java
+
+```java
+package com.example.woowoowoo;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+    private Button btn_1; //类似单片机中初始化
+    private ImageView image_1;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        btn_1 = findViewById(R.id.btn_1); //寻找xml里面的id与自己定义的id进行绑定
+        //然后就可以实现按钮的单击事件了
+        //设置监听
+        btn_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //这里就是单机之后 执行的地方
+                System.out.println("hello");//java里面的debug日志打印
+                //更直观的方法 用弹窗：toast
+                //第一个参数 当前的界面 第二个参数 内容  第三个参数 显示的长度
+                //在当前activity显示内容为hello的短时间弹窗
+                Toast.makeText(MainActivity.this, "hello", Toast.LENGTH_SHORT).show();
+            }
+        });
+        image_1 = findViewById(R.id.image_1);
+        image_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "我是第一个图片", Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
 
 
 
+    }
+}
+```
 
+效果：
+
+点击按钮前
+
+![image-20240312144105738](JAVA&Android.assets/image-20240312144105738.png)
+
+点击按钮后：
+
+![企业微信截图_20240312144203](JAVA&Android.assets/企业微信截图_20240312144203.png)
+
+
+
+每按一下 下面的调试窗口就会显示一下
+
+![image-20240312144846509](JAVA&Android.assets/image-20240312144846509.png)
+
+然后就可以做前面几个图的事件了
+
+实现点击图片 然后让下面的文字变化 实现模块联动
+
+两个控件联动 ：单机按钮 更改textview的内容
+
+
+
+`ui_init()`然后按alt+enter 就会创建方法
+
+然后把初始化的东西都放到这个函数里 这样代码更整洁一些
+
+```java
+    private void ui_init() {
+        btn_1 = findViewById(R.id.btn_1); //寻找xml里面的id与自己定义的id进行绑定
+        image_1 = findViewById(R.id.image_1);
+        text_test = findViewById(R.id.text_test);//实现绑定
+
+    }
+```
+
+之后可以这么写 优化了更简洁一些 
+
+现在还是可以按之前的 绑定 然后操作
+
+MainActivity.java
+
+```java
+package com.example.woowoowoo;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+    private Button btn_1; //类似单片机中初始化
+    private ImageView image_1;
+    private TextView text_test;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ui_init();
+
+        //然后就可以实现按钮的单击事件了
+        //设置监听
+        btn_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //这里就是单机之后 执行的地方
+                System.out.println("hello");//java里面的debug日志打印
+                //更直观的方法 用弹窗：toast
+                //第一个参数 当前的界面 第二个参数 内容  第三个参数 显示的长度
+                //在当前activity显示内容为hello的短时间弹窗
+                Toast.makeText(MainActivity.this, "hello", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        image_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "我是第一个图片", Toast.LENGTH_SHORT).show();
+                //用到文本框的一个方法
+                text_test.setText("我是新的内容");
+            }
+        });
+    }
+
+    private void ui_init() {
+        btn_1 = findViewById(R.id.btn_1); //寻找xml里面的id与自己定义的id进行绑定
+        image_1 = findViewById(R.id.image_1);
+        text_test = findViewById(R.id.text_test);//实现绑定
+
+    }
+}
+```
+
+activity_main.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="#e3fdfd"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="#f6f6f6"
+
+            android:layout_height="251dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_margin="10dp"
+                android:src="@drawable/dolphin"
+                android:layout_height="wrap_content">
+
+            </ImageView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="140dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/image_1"
+                        android:layout_weight="1"
+                        android:src="@drawable/light">
+
+                    </ImageView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="20sp"
+                        android:layout_height="wrap_content"
+                        android:text="开关">
+
+                    </TextView>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="140dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/door_security">
+
+                    </ImageView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="20sp"
+                        android:layout_height="wrap_content"
+                        android:text="门禁">
+
+                    </TextView>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="140dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/fan">
+
+                    </ImageView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="20sp"
+                        android:layout_height="wrap_content"
+                        android:text="风扇">
+
+                    </TextView>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="140dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/temp">
+
+                    </ImageView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="20sp"
+                        android:layout_height="wrap_content"
+                        android:text="温度">
+
+                    </TextView>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="140dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/radar">
+
+                    </ImageView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="20sp"
+                        android:layout_height="wrap_content"
+                        android:text="雷达">
+
+                    </TextView>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="140dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/pm">
+
+                    </ImageView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="20sp"
+                        android:layout_height="wrap_content"
+                        android:text="pm2.5">
+
+                    </TextView>
+                </LinearLayout>
+            </LinearLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:text="测试开关"
+                android:id="@+id/btn_1"
+                android:layout_height="wrap_content">
+
+            </Button>
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="我是原来的内容"
+                android:id="@+id/text_test"
+                android:layout_height="wrap_content">
+
+            </TextView>
+            
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+
+
+后面要做的：
+
+按钮单机用来发送命令控制硬件 例如：open door
+
+文本框更新数据 用来接收硬件上报的传感器值 例如：温度 25.6
+
+不凭空学安卓开发 而是有目的的直接面向项目实战
+
+等学好 剩下的交给举一反三就可以了
 
 
 
