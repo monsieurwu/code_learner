@@ -1,4 +1,4 @@
-# JAVA&Android
+JAVA&Android
 
 安卓推荐：
 
@@ -283,6 +283,66 @@ dependencies {//关联一些默认的文件
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
 ```
+
+up主笔记
+
+```java
+第二节开始  目前Java0基础
+第二节：
+控件（常用的）：   控件（扩展）拖动条 进度条 浏览器框 地图 单选框 复选框
+按钮 图片按钮
+文本框
+编辑框
+图片框
+选择开关
+ wrap_content   自适应
+ match_parent    充满父控件
+ android:id="@+id/bt_1"   用来和JAVA文件通讯或者说是 绑定事件的
+LinearLayout  线性布局
+android:orientation="vertical"  设置布局方向  vertical垂直  horizontal水平
+android:layout_margin="10dp"    边距
+
+第三节开始   目前java 0基础
+安卓开发  要多调试  多刷程序（因为你不知道你的APP程序会什么时候崩溃！！！！）
+java里面的操作  大部分都类似于单片机的函数
+
+控件的ID  是java文件与XML文件通讯的介质  类似于控件的 号码牌（唯一）
+按钮：
+单击事件有很多种实现方法  咱们讲最简单最常用的一种
+
+按钮单机    用来发送命令控制硬件 例如：open door
+文本框更新数据   用来接收硬件上报的传感器值  例如：温度 25.6
+
+
+咱们 不凭空的学安卓开发  咱们是有目的的 直接面向项目和实战。
+剩下的交给举一反三
+
+第四节：MQTT Jar导入
+复制粘贴！！！
+Mqtt_init()
+Mqtt_connect()
+startReconnect()
+爆红不用管！！！
+最后赋值
+Handler()
+#################################
+MQTT的知识  保证每个人都能连我的服务器   每个人的ID（MQTT要求唯一）都这设置为自己的QQ号
+直接开搞  先跑起来 再讲原理
+需要网络权限  和授权！（Android 6.0 以后需要动态授权后面再讲）
+连接成功！
+开始订阅 topic
+拿到数据   想干嘛干嘛   随意做UI
+下发控制
+发布消息到指定 topic
+拷贝发布函数
+测试APP发消息  成功！！！
+硬件  得到消息  判断 是不是“open_led ”然后 点灯！！
+APP   得到消息  判断 传感器 数据  然后  UI展示   温度：56.3
+
+剩下的  交给举一反三！！
+```
+
+
 
 #### 2.控件与界面布局
 
@@ -1134,15 +1194,347 @@ mainactivity.java
 
 
 
+#### 4.导入物联网通讯的mqtt的jar包
+
+![image-20240314161517673](JAVA&Android.assets/image-20240314161517673.png)
+
+首先导入mqtt的jar包
+
+之后除了mqtt的jar包可以导入 蓝牙的 各种都可以 就相当于c语言中的库 别人开发好了的 直接调用库就好了 
+
+第五节课讲硬件 马上就能上手用
+
+最后再讲handler和message这个多线程的东西
+
+jar包下载地址：https://repo.eclipse.org/content/repositories/paho-releases/org/eclipse/paho/org.eclipse.paho.client.mqttv3/1.2.0/
+
+用jar包有多种方式 这种是下载下来 还有一种是gradle 也有其他方法远程来下载
+
+导入jar包 正常是在android 先切到Project 然后按下面的方式导入
+
+粘贴到Project->app->lib
+
+然后右键 add as library
+
+放在app下面就可以了
+
+之后就是学习怎么调用别人写好的
+
+添加成功后就可以在这个文件下看到已经添加好了
+
+![企业微信截图_20240314160345](JAVA&Android.assets/企业微信截图_20240314160345.png)
+
+这个build.gradle就是用来配置一些插件 或者外置的库的 其实也可以直接添加地址 它会自动联网去下载（这个等下学下怎么导） 
+
+然后就可以直接调用mqtt的这些函数 注意大写
+
+注释 先选中要注释的行 然后按住ctrl+/ 就都能注释了
+
+很多红的地方 按alt+enter就能解决 选择用安卓的还是java的库
+
+复制粘贴就能解决大部分问题
+
+权限放在manifest里面
+
+![image-20240314160536801](JAVA&Android.assets/image-20240314160536801.png)
+
+要加上这两个才有网络权限 和授权（android6.0以后需要动态授权 动态授权后面讲）
+
+![image-20240314120920642](JAVA&Android.assets/image-20240314120920642.png)
 
 
 
+新的变量设好
+
+```java
+    private ImageView image_1;//类似单片机中初始化
+    private ImageView image_2;
+//    private TextView text_test;
+    private boolean isImage1 = true;
+    private boolean isImage2 = true;
+    private String host = "tcp://10.45.98.182:1883";
+    private String userName = "android";
+    private String passWord = "android";
+    private String mqtt_id = "1045927662"; //定义成自己的QQ号  切记！不然会掉线！！！
+    private String mqtt_sub_topic = "1045927662"; //为了保证你不受到别人的消息  订阅主题 得唯一
+    private String mqtt_pub_topic = "1045927662_PC"; //为了保证你不受到别人的消息  哈哈  自己QQ好后面加 _PC
+    private ScheduledExecutorService scheduler;
+    private Handler handler;
+    private MqttClient client;
+    private MqttConnectOptions options;
+```
+
+mqtt初始化
+
+```java
+        private void Mqtt_init()
+    {
+        try {
+            //host为主机名，test为clientid即连接MQTT的客户端ID，一般以客户端唯一标识符表示，MemoryPersistence设置clientid的保存形式，默认为以内存保存
+            client = new MqttClient(host, mqtt_id,
+                    new MemoryPersistence());
+            //MQTT的连接设置
+            options = new MqttConnectOptions();
+            //设置是否清空session,这里如果设置为false表示服务器会保留客户端的连接记录，这里设置为true表示每次连接到服务器都以新的身份连接
+            options.setCleanSession(false);
+            //设置连接的用户名
+            options.setUserName(userName);
+            //设置连接的密码
+            options.setPassword(passWord.toCharArray());
+            // 设置超时时间 单位为秒
+            options.setConnectionTimeout(10);
+            // 设置会话心跳时间 单位为秒 服务器会每隔1.5*20秒的时间向客户端发送个消息判断客户端是否在线，但这个方法并没有重连的机制
+            options.setKeepAliveInterval(20);
+            //设置回调
+            client.setCallback(new MqttCallback() {
+                @Override
+                public void connectionLost(Throwable cause) {
+                    //连接丢失后，一般在这里面进行重连
+                    System.out.println("connectionLost----------");
+                    //startReconnect();
+                }
+                @Override
+                public void deliveryComplete(IMqttDeliveryToken token) {
+                    //publish后会执行到这里
+                    System.out.println("deliveryComplete---------"
+                            + token.isComplete());
+                }
+                @Override
+                public void messageArrived(String topicName, MqttMessage message)
+                        throws Exception {
+                    //subscribe后得到的消息会执行到这里面
+                    System.out.println("messageArrived----------");
+                    Message msg = new Message();
+                    msg.what = 3;   //收到消息标志位
+                    msg.obj = topicName + "---" + message.toString();
+                    handler.sendMessage(msg);    // hander 回传
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+```
+
+mqtt连接服务器
+
+```java
+   private void Mqtt_connect() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if(!(client.isConnected()) )  //如果还未连接
+                    {
+                        System.out.println("Mqtt_connect");//java里面的debug日志打印
+                        client.connect(options);
+                        Message msg = new Message();
+                        msg.what = 31;
+                        handler.sendMessage(msg);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Message msg = new Message();
+                    msg.what = 30;
+                    handler.sendMessage(msg);
+                }
+            }
+        }).start();
+    }
+```
+
+mqtt重连
+
+```java
+ private void startReconnect() {
+        scheduler = Executors.newSingleThreadScheduledExecutor();
+        scheduler.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                if (!client.isConnected()) {
+                    System.out.println("startReconnect");//java里面的debug日志打印
+                    Mqtt_connect();
+                }
+            }
+        }, 0 * 1000, 10 * 1000, TimeUnit.MILLISECONDS);
+    }
+```
+
+handler处理 注意 这个要写在onCreate里面 其他那些写在外面
+
+```java
+ handler = new Handler() {
+            @SuppressLint("SetTextI18n")
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 1: //开机校验更新回传
+                        break;
+                    case 2:  // 反馈回传
+
+                        break;
+                    case 3:  //MQTT 收到消息回传   UTF8Buffer msg=new UTF8Buffer(object.toString());
+                        Toast.makeText(MainActivity.this,msg.obj.toString() ,Toast.LENGTH_SHORT).show();
+                        //这一句就是把mqtt收到的消息打印出来
+
+                        break;
+                    case 30:  //连接失败
+                        System.out.println("连接失败");//java里面的debug日志打印
+                        Toast.makeText(MainActivity.this,"连接失败" ,Toast.LENGTH_SHORT).show();
+                        break;
+                    case 31:   //连接成功
+                        System.out.println("连接成功");//java里面的debug日志打印
+                        Toast.makeText(MainActivity.this,"连接成功" ,Toast.LENGTH_SHORT).show();
+                        try {
+                            client.subscribe(mqtt_sub_topic,1);//订阅
+                        } catch (MqttException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+```
+
+up主自己写的publish的函数 封装了一下publish
+
+```java
+ private void publishmessageplus(String topic,String message2)
+    {
+        if (client == null || !client.isConnected()) {
+            return;
+        }
+        MqttMessage message = new MqttMessage();
+        message.setPayload(message2.getBytes());
+        try {
+            client.publish(topic,message);
+        } catch (MqttException e) {
+
+            e.printStackTrace();
+        }
+    }
+```
 
 
 
+mqtt的知识 保证每个人都能连up主的服务器 每个人的ID都设置为自己的qq号 因为要唯一
+
+连接成功后就订阅消息
+
+拿到数据 想干嘛干嘛 随意做UI
+
+下发控制
+
+发布消息到指定topic
+
+拷贝发布函数
+
+测试app发消息 成功
+
+剩下的交给举一反三
+
+今天先实现功能 明天再讲原理
+
+下节课讲handler和message 因为是联网的 联网一般就用到异步通信 多线程 
+
+把代码调通
+
+##### mqtt服务器搭建
+
+服务器就启动了
+
+![image-20240314134347990](JAVA&Android.assets/image-20240314134347990.png)
+
+emqx的管理端口：http://localhost:18083/#/login?to=/dashboard/overview
+
+![image-20240314134517707](JAVA&Android.assets/image-20240314134517707.png)
+
+![image-20240314134537689](JAVA&Android.assets/image-20240314134537689.png)
+
+修改了密码为：david96530
+
+用本机地址也能连上：127.0.0.1:18083
+
+测试一下这个服务器 能否实现主题发送与订阅
+
+可以自测
+
+![image-20240314142013238](JAVA&Android.assets/image-20240314142013238.png)
+
+![image-20240314141337775](JAVA&Android.assets/image-20240314141337775.png)
+
+订阅之后可以正常发送消息的话说明服务器没有问题了
+
+![image-20240314141553651](JAVA&Android.assets/image-20240314141553651.png)
+
+这个就说明搭建完成了 
+
+把代码调通后就可以开始连接服务器
+
+首先把ip地址改好 用主机的ipv4地址
+
+```java
+private String host = "tcp://10.45.98.182:1883";
+```
+
+一旦run程序 会自动连上服务器 服务器上就会显示
 
 
 
+![image-20240314164513819](JAVA&Android.assets/image-20240314164513819.png)
 
+并且手机上会显示连接成功  （但目前还是会先显示个连接失败）
 
+![image-20240314170247834](JAVA&Android.assets/image-20240314170247834.png)
 
+logcat也会打印
+
+![image-20240314170348996](JAVA&Android.assets/image-20240314170348996.png)
+
+本地下载使用mqtt.fx来发消息 设置里面可以写配置 用本地地址 端口是1883去connect
+
+![image-20240314164923741](JAVA&Android.assets/image-20240314164923741.png)
+
+![image-20240314164759647](JAVA&Android.assets/image-20240314164759647.png)
+
+mqtt是即时通信
+
+connect之后服务器
+
+![image-20240314165232869](JAVA&Android.assets/image-20240314165232869.png)
+
+然后就可以互相通信了
+
+从mqtt.fx发送到手机
+
+输入订阅主题 内容 然后就publish
+
+![image-20240314165556933](JAVA&Android.assets/image-20240314165556933.png)
+
+手机收到就说明通信成功
+
+![image-20240314165656962](JAVA&Android.assets/image-20240314165656962.png)
+
+然后设置一段代码 publish发给mqtt.fx
+
+![image-20240314170730202](JAVA&Android.assets/image-20240314170730202.png)
+
+加到点击的事件里
+
+mqtt里订阅主题
+
+![image-20240314170923310](JAVA&Android.assets/image-20240314170923310.png)
+
+然后就点击事件 触发 
+
+![企业微信截图_20240314171018](JAVA&Android.assets/企业微信截图_20240314171018.png)
+
+能收到就说明两边是通的
+
+![image-20240314172913985](JAVA&Android.assets/image-20240314172913985.png)
+
+以项目为目的 这样更有兴趣 
+
+![image-20240314172955025](JAVA&Android.assets/image-20240314172955025.png)
