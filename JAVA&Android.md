@@ -1,4 +1,4 @@
-JAVA&Android
+# JAVA&Android
 
 安卓推荐：
 
@@ -12,15 +12,21 @@ JAVA&Android
 
 longway777 jetpack
 
+学习路线：
 
+java基础：韩顺平 900+节课
 
-java基础：韩顺平
+https://www.bilibili.com/video/BV1fh411y7R8/?spmid%20from=333.999.0.0&vd%20source=0a31e3f2c1721628014b2ea38c637e2c&vd_source=d31ec3e5b50ba0ea326786df2a78a612
 
 尚硅谷：安卓
 
 天哥在奔跑：安卓
 
+https://www.bilibili.com/video/BV1Rt411e76H/?spm_id_from=333.337.search-card.all.click&vd_source=d31ec3e5b50ba0ea326786df2a78a612
+
 longway777： jetpack（主流的开发框架 谷歌出的套件）
+
+https://www.bilibili.com/video/BV1w4411t7UQ/?p=1&vd_source=0a31e3f2c1721628014b2ea38c637e2c
 
 
 
@@ -85,7 +91,9 @@ Kotlin：鉴于Kotlin现在是Android官方推荐的语言，可以考虑学习K
 
 先学个速成的 看个大概
 
-7天Java0基础速成安卓开发：https://www.bilibili.com/video/BV1G7411t7zs/?spm_id_from=333.337.search-card.all.click&vd_source=d31ec3e5b50ba0ea326786df2a78a612
+### 7天Java0基础速成安卓开发
+
+https://www.bilibili.com/video/BV1G7411t7zs/?spm_id_from=333.337.search-card.all.click&vd_source=d31ec3e5b50ba0ea326786df2a78a612
 
 ![image-20240308150008219](JAVA&Android.assets/image-20240308150008219.png)
 
@@ -1538,3 +1546,386 @@ mqtt里订阅主题
 以项目为目的 这样更有兴趣 
 
 ![image-20240314172955025](JAVA&Android.assets/image-20240314172955025.png)
+
+后续没有硬件 只能先暂停这个学习 收获还蛮大的
+
+
+
+### 天哥在奔跑：安卓
+
+https://www.bilibili.com/video/BV1Rt411e76H/?spm_id_from=333.337.search-card.all.click&vd_source=d31ec3e5b50ba0ea326786df2a78a612
+
+安卓：
+
+谷歌开发的操作系统
+
+移动应用开发之一
+
+最精简的开发流程
+
+<img src="JAVA&Android.assets/image-20240315100335927.png" alt="image-20240315100335927" style="zoom:50%;" />
+
+简书 天哥在奔跑
+
+https://www.jianshu.com/u/2dcca6c67b84
+
+gradle非常庞大 用到什么学什么就好
+
+比较重要的几个文件
+
+![image-20240315102416667](JAVA&Android.assets/image-20240315102416667.png)
+
+![image-20240315102434046](JAVA&Android.assets/image-20240315102434046.png)
+
+应用里用到的每一个activity都需要在这个manifest里面申明注册一下 才可以去调用 启动它
+
+![image-20240315102830941](JAVA&Android.assets/image-20240315102830941.png)
+
+![image-20240315103556660](JAVA&Android.assets/image-20240315103556660.png)
+
+这个就是吧mainactivity设置为一个laucher 也就是把这个activity设置为main  然后把这个activity设置为启动的activity
+
+mainactivity
+
+![image-20240315102940697](JAVA&Android.assets/image-20240315102940697.png)
+
+```java
+package com.example.hello;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);//这个是布局代码
+    }
+}
+```
+
+![image-20240315103159376](JAVA&Android.assets/image-20240315103159376.png)
+
+![image-20240315103300711](JAVA&Android.assets/image-20240315103300711.png)
+
+一般用线性布局
+
+《Android》项目目录结构解读：https://www.jianshu.com/p/f64a9bebaac3
+
+好好熟悉一下目录结构
+
+#### UI组件
+
+线性布局 相对布局
+
+##### 线性布局
+
+https://www.jianshu.com/p/c9725d05a31d
+
+![image-20240315104853005](JAVA&Android.assets/image-20240315104853005.png)
+
+margin是外边距 padding是内边距
+
+match_parent 匹配父控件 上一级宽度是多少 那空间就是多少
+
+wrap_content：内容有多少 空间就多少
+
+![image-20240315105742252](JAVA&Android.assets/image-20240315105742252.png)
+
+让设置方向
+
+安卓中 长度单位用dp 字体用sp
+
+android:layout_weight="1" 把剩余内容按照权重去分配
+
+如果要平分 那就把width设置为0
+
+![image-20240315111635352](JAVA&Android.assets/image-20240315111635352.png)
+
+只要是权重一样 就可以平分
+
+练习方法：百度app画面 自己照着画 不一定达到那个效果 起码位置摆放正确
+
+```xml
+ <LinearLayout
+        android:id="@+id/ll_1"
+        android:layout_width="200dp"
+        android:orientation="vertical"
+        android:background="#000000"
+        android:padding="20dp"
+        android:paddingLeft="40dp"
+        android:paddingBottom="100dp"
+        
+
+
+        android:layout_height="200dp">
+        <View
+            android:layout_width="match_parent"
+            android:background="#FF0033"
+            android:layout_height="match_parent">
+
+        </View>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:background="#0066FF"
+        android:layout_marginTop="40dp"
+
+        android:layout_height="match_parent">
+        <View
+            android:layout_width="100dp"
+            android:background="#ffffff"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_height="100dp">
+
+        </View>
+
+    </LinearLayout>
+```
+
+
+
+##### 相对布局
+
+https://www.jianshu.com/p/7ce3c29b7b71
+
+<img src="JAVA&Android.assets/image-20240315113642140.png" alt="image-20240315113642140" style="zoom:67%;" />
+
+
+
+toleftof 在...的左边
+
+torightof 在...的右边
+
+alignbottom 跟谁底部对齐
+
+alignparentbottom跟父控件底部对齐
+
+below 在...的下面
+
+**ID 引用方式**：在 XML 中引用或定义一个 ID 时，如果是首次定义，应使用 `@+id/` 而不是 `@id/`。`@+id/` 是用来声明一个新的 ID 资源，而 `@id/` 是用于引用一个已经声明过的 ID。
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="100dp"
+        android:id="@+id/view_1"
+        android:background="#000000"
+
+        android:layout_height="100dp">
+
+    <View
+        android:layout_width="100dp"
+        android:id="@+id/view_2"
+        android:background="#ff0033"
+        android:layout_toRightOf="@id/view_1"
+        android:layout_height="100dp">
+
+    <View
+        android:layout_width="100dp"
+        android:id="@+id/view_3"
+        android:background="#ff0033"
+        android:layout_below="@id/view_1"
+        android:layout_height="100dp">
+
+    </View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#0066ff"
+        android:padding="15dp"
+        android:layout_below="@id/view_3">
+        <View
+            android:layout_width="100dp"
+            android:background="#ff0033"
+            android:layout_height="match_parent">
+
+        </View>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="#000000"
+            android:padding="15dp"
+            android:layout_height="match_parent">
+            <View
+                android:layout_width="100dp"
+                android:id="@+id/view_4"
+                android:background="#ff9900"
+                android:layout_height="match_parent">
+
+            </View>
+            <View
+                android:layout_width="100dp"
+                android:id="@+id/view_5"
+                android:background="#ff9900"
+                android:layout_toRightOf="@id/view_4"
+                android:layout_margin="10dp"
+                android:layout_height="match_parent">
+
+            </View>
+
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>
+```
+
+
+
+
+
+
+
+##### TextView组件
+
+https://www.jianshu.com/p/8446725b587e
+
+目标
+
+文字大小、颜色
+显示不下使用...
+文字+icon
+跑马灯
+中划线、下划线
+
+![image-20240315144617521](JAVA&Android.assets/image-20240315144617521.png)
+
+Button一开始是红的 然后按alt+enter 上面会自动出现导入这个库 然后Button就不红了
+
+
+
+![image-20240315145411510](JAVA&Android.assets/image-20240315145411510.png)
+
+这是之前学过的的绑定 这行代码是在 Android 开发中用于绑定 XML 布局文件中定义的视图（View）到 Java 或 Kotlin 代码中的一个实例
+
+返回值是View
+
+![image-20240315145159938](JAVA&Android.assets/image-20240315145159938.png)
+
+但这个 Button类
+
+![image-20240315145229962](JAVA&Android.assets/image-20240315145229962.png)
+
+于是要父类转子类
+
+```java
+mBtnTextView= this.<Button>findViewById(R.id.btn_textview);
+```
+
+![image-20240315152615324](JAVA&Android.assets/image-20240315152615324.png)
+
+```java
+package com.example.hello;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+
+
+public class MainActivity extends AppCompatActivity {
+
+    //布局里面有一个button 那我们首先要申明
+    private Button mBtnTextView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        mBtnTextView=findViewById(R.id.btn_textview);//绑定
+        //然后再给button设置一个点击事件
+        mBtnTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //跳转到TextView演示界面
+                
+
+            }
+        });
+
+
+
+
+    }
+}
+```
+
+然后就可以新建一个activity
+
+![image-20240315154607889](JAVA&Android.assets/image-20240315154607889.png)
+
+之后textview的演示就写在这里面
+
+![image-20240315154741138](JAVA&Android.assets/image-20240315154741138.png)
+
+新建好了要在manifest里面去声明一下
+
+![image-20240315154937225](JAVA&Android.assets/image-20240315154937225.png)
+
+已经默认写好了
+
+跳转 按ctrl+鼠标左键 跳转到TextViewActivity.java
+
+```java
+                Intent intent = new Intent(MainActivity.this, TextViewActivity.class);
+                startActivity(intent);
+```
+
+修改这个新的activity的视图
+
+
+
+value中有个string 可以把一些文字 定义在这里面
+
+![image-20240315160809019](JAVA&Android.assets/image-20240315160809019.png)
+
+然后在视图里可能引用这里面定义的
+
+![image-20240315160847689](JAVA&Android.assets/image-20240315160847689.png)
+
+字体大小用sp为单位
+
+放不下就变成...
+
+![image-20240315161929583](JAVA&Android.assets/image-20240315161929583.png)
+
+文字+icon
+
+![image-20240315163045170](JAVA&Android.assets/image-20240315163045170.png)
+
+跑马灯：通过java代码来实现
+
+![image-20240315165051361](JAVA&Android.assets/image-20240315165051361.png)
+
+但会有一点锯齿感
+
+```java
+      	mTv4.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);//穿过去的一根线 中划线
+        mTv4.getPaint().setAntiAlias(true);//去掉锯齿
+```
+
+还可以通过html来显示
+
+```java
+        mTv6 = findViewById(R.id.tv_6);
+        //类型转换
+        mTv4.setText(Html.fromHtml("<u>呜呜呜在奔跑</u>"));//也是加下划线
+```
+
+最后是跑马灯
+
