@@ -10,19 +10,30 @@ def get_novel_chapters():
     
     
     links = soup.find_all("div", class_ = "volume")
-    fout = open("craw_all_chapter.txt", "w")
-    fout.write("%s\n"%(links))
-    fout.flush()
+    # fout = open("craw_all_chapter.txt", "w")
+    # fout.write("%s\n"%(links))
+    # fout.flush()
+    data = []
+    for li in soup.find_all('li'):
+        link = li.find("a")
+        if link:
+            href = link["href"]
+            text = link.text
+            print(f"链接：{href}, 标题：{text}")
+            data.append(("http://www.89wxw.cn%s"%href, text))
+    return data
+        
 
-    # for div in soup.find_all("div", class_ = "volume"):
-    #     link = div.find("a")
     #     if not link:
     #         continue
-    #     print(link)
+    #     data.append((link["href"], link.get_text))
+    # print(data)
+    # return data
+    # print(link)
 
 
-    print(links)
-    fout.close()
+    # print(links)
+    # fout.close()
 
 
 get_novel_chapters()
