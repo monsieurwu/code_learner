@@ -8,7 +8,7 @@ import url_manager
 import re
 # 首先定义入口url
 
-root_url = "http://www.crazyant.net/"
+root_url = "https://dict.eudic.net/"
 """
 定义一个urlManager
 快捷键可以引入这个模块

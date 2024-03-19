@@ -2,6 +2,12 @@
 
 https://www.bilibili.com/video/BV1CY411f7yh?p=4&spm_id_from=pageDriver&vd_source=d31ec3e5b50ba0ea326786df2a78a612
 
+后续课程：
+
+pandas：
+
+selenium：https://www.bilibili.com/video/BV1RZ4y147zD/?spm_id_from=333.337.search-card.all.click&vd_source=d31ec3e5b50ba0ea326786df2a78a612
+
 ![image-20240317122433198](python爬虫入门实战案例教程-入门到精通（收藏版）.assets/image-20240317122433198.png)
 
 三个模块相互配合 让这个爬虫不断的进行爬取
@@ -828,23 +834,453 @@ fout.close()
 
 网址：https://movie.douban.com/top250
 
+#### 【实战】爬取北京天气的10年数据并保存到excel文件中
+
+爬取目标：http://tianqi.2345.com/wea_history/54511.html
+
+<img src="python爬虫入门实战案例教程-入门到精通（收藏版）.assets/image-20240319093901618.png" alt="image-20240319093901618" style="zoom: 50%;" />
+
+选择不同的年份月份 但网页网址没有变 说明这个网站是后台异步加载的
+
+![image-20240319094955974](python爬虫入门实战案例教程-入门到精通（收藏版）.assets/image-20240319094955974.png)
+
+这种网站需要进行抓包分析
+
+如何抓包：
+
+右键->检查->network 这样 就可以进行抓包了
+
+每次改年份月份  切两次 就会发两次请求
+
+![image-20240319095237475](python爬虫入门实战案例教程-入门到精通（收藏版）.assets/image-20240319095237475.png)
+
+请求里面就是我们数据的来源 上面的url没变 下面通过异步的请求来获取数据
+
+![image-20240319095619095](python爬虫入门实战案例教程-入门到精通（收藏版）.assets/image-20240319095619095.png)
+
+1.要注意Headers里面的参数
+
+![image-20240319095831514](python爬虫入门实战案例教程-入门到精通（收藏版）.assets/image-20240319095831514.png)
+
+以后我们爬取的时候可以设置这个参数 可以用于反爬 我们把这个复制 等下代码中粘贴就可以了
+
+User-Agent:
+
+```
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36
+```
+
+2.注意请求的参数 放在payload里
+
+![image-20240319100130654](python爬虫入门实战案例教程-入门到精通（收藏版）.assets/image-20240319100130654.png)
+
+第一个就是网址上的 这个是北京的编码 不用管
+
+areaType也不会变
+
+主要是下面两个date会变 对应的其实就是你在网页里的请求
+
+**总结**：右键 点检查 Network里可以进行抓包 在网页中进行不同的操作 后方就发送不同请求 不同的请求里 Header的URL都是不同的URL  而这里面需要带一个Uer-Agent这样的反爬机制  Payload是真正传参数 其中里面前两个不变  后两个是对应的年份和月份 看下返回的结果（在response里）
+
+![image-20240319100943927](python爬虫入门实战案例教程-入门到精通（收藏版）.assets/image-20240319100943927.png)
 
 
 
+里面是一个json的数据 这个数据可以在preview进行展示  就是一个格式化的效果
+
+![image-20240319101047758](python爬虫入门实战案例教程-入门到精通（收藏版）.assets/image-20240319101047758.png)
+
+有三个字段 类似一个字典 code msg 和data
+
+data里是一段html的代码  里面有一个table的表格 之后可以用pandas进行解析
+
+之后开始写代码
 
 
 
+首先把Header里面的url复制 不用复制？后的参数部分 因为参数部分全在payload里
+
+![image-20240319101439939](python爬虫入门实战案例教程-入门到精通（收藏版）.assets/image-20240319101439939.png)
+
+url：https://tianqi.2345.com/Pc/GetHistory
+
+第一次写就请求失败了
+
+```python
+# 首先把请求的网址放到一个变量里
+url = "https://tianqi.2345.com/Pc/GetHistory"
+# 加上参数 复制payload的内容并改成字典的格式 加上”xxx“和逗号
+params = {
+    "areaInfo[areaId]": 54511,
+    "areaInfo[areaType]": 2,
+    "date[year]": 2014,
+    "date[month]": 6
+}
+# 然后我们再设一个headers 里面方法user-agent
+# 因为里面有可能有双引号 导致冲突 直接使用三引号就好了
+headers = {
+    "User-Agent" : """Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"""
+}
+# 准备完毕 开始爬取
+
+import requests
+resp = requests.get(url, headers=headers, params=params)
+# 如果是200 说明请求成功
+print(resp.status_code)
+# 然后就可以打印一下request到的内容
+print(resp.text)
+```
+
+![image-20240319104308896](python爬虫入门实战案例教程-入门到精通（收藏版）.assets/image-20240319104308896.png)
+
+解决方法：
+
+遇到403无法打开页面的情况 在header里加一个"Referer": "https://tianqi.2345.com/wea_history/54511.htm"  Referer这个HTTP请求头部用于指示一个请求是从哪个页面发起的。在网络爬虫或者API请求中，设置Referer头部可以模拟浏览器行为，因为正常用户浏览网页时，浏览器会自动添加这个头部。如果一个网站只允许从特定页面发起的请求访问某些资源，没有正确的Referer头部，请求可能会被拒绝。
+
+```python
+headers = {
+    "User-Agent" : """Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36""",
+    "Referer": "https://tianqi.2345.com/wea_history/54511.htm"
+}
+```
+
+print(resp.text)会打印成下面这样
+
+![image-20240319112813657](python爬虫入门实战案例教程-入门到精通（收藏版）.assets/image-20240319112813657.png)
+
+返回200就说明成功了 
+
+后面是是一个字典 内容有code msg data 
+
+data里有真正的数据 想要得到data里的数据 可以用
+
+```python
+data = resp.json()["data"]
+```
+
+这行代码整体的作用是将HTTP响应体中的JSON格式数据解析出来，并从中提取出键为`"data"`的部分，保存到变量`data`中。 
+
+这样再打印 data就能被展示出来了 一个html代码 里面是个表格
+
+![image-20240319113235997](python爬虫入门实战案例教程-入门到精通（收藏版）.assets/image-20240319113235997.png)
+
+ 之后我们要做的就是取到表格里的内容
+
+之前是使用beautifulsoup这个库 用来解析数据 
+
+如果遇到的是表格的数据 可以用pandas这个库 很容易的提取这里面的表格
+
+用命令安装pandas这个库
+
+```shell
+pip install pandas
+```
+
+然后import
+
+```python
+import pandas as pd
+```
+
+craw_weather.py
+
+```python
+# 首先把请求的网址放到一个变量里
+url = "https://tianqi.2345.com/Pc/GetHistory"
+# 加上参数 复制payload的内容并改成字典的格式 加上”xxx“和逗号
+params = {
+    "areaInfo[areaId]": 54511,
+    "areaInfo[areaType]": 2,
+    "date[year]": 2014,
+    "date[month]": 6
+}
+# 然后我们再设一个headers 里面方法user-agent
+# 因为里面有可能有双引号 导致冲突 直接使用三引号就好了
+headers = {
+    "User-Agent" : """Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36""",
+    "Referer": "https://tianqi.2345.com/wea_history/54511.htm"
+    # Referer这个HTTP请求头部用于指示一个请求是从哪个页面发起的。
+    # 在网络爬虫或者API请求中，设置Referer头部可以模拟浏览器行为，因为正常用户浏览网页时，浏览器会自动添加这个头部。
+    # 如果一个网站只允许从特定页面发起的请求访问某些资源，没有正确的Referer头部，请求可能会被拒绝。
+
+}
+# 准备完毕 开始爬取
+
+import requests
+resp = requests.get(url, headers=headers, params=params)
+# 如果是200 说明请求成功
+print(resp.status_code)
+# 然后就可以打印一下request到的内容
+# print(resp.text)
+data = resp.json()["data"]
+print(data)
+
+# 提取一个字符串里的表格数据
+import pandas as pd
+# 它直接就可以解析html 传入data字段 它可以解析这个网页中所有的表格 因为一个网页中会有很多个表格 我们取0 就是第一个表格
+# pandas的核心概念叫做data frame（df）
+# up主有专门的pandas的课程 后续可以学下
+df = pd.read_html(data)[0]
+print(df.head())
+# 这个打印可以看到表格的前几行
+```
+
+这样说明表格已经爬取成功了
+
+![image-20240319115220663](python爬虫入门实战案例教程-入门到精通（收藏版）.assets/image-20240319115220663.png)
+
+现在单个网页 我们已经爬取完了
+
+我们可以把它封装成函数 方便我们进行重复的内容
+
+craw_weather.py
+
+```python
+# 首先把请求的网址放到一个变量里
+url = "https://tianqi.2345.com/Pc/GetHistory"
+# 加上参数 复制payload的内容并改成字典的格式 加上”xxx“和逗号
+# params = {
+#     "areaInfo[areaId]": 54511,
+#     "areaInfo[areaType]": 2,
+#     "date[year]": 2014,
+#     "date[month]": 6
+# }
+# 然后我们再设一个headers 里面方法user-agent
+# 因为里面有可能有双引号 导致冲突 直接使用三引号就好了
+headers = {
+    "User-Agent" : """Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36""",
+    "Referer": "https://tianqi.2345.com/wea_history/54511.htm"
+    # Referer这个HTTP请求头部用于指示一个请求是从哪个页面发起的。
+    # 在网络爬虫或者API请求中，设置Referer头部可以模拟浏览器行为，因为正常用户浏览网页时，浏览器会自动添加这个头部。
+    # 如果一个网站只允许从特定页面发起的请求访问某些资源，没有正确的Referer头部，请求可能会被拒绝。
+
+}
+# 准备完毕 开始爬取
+
+import requests
+import pandas as pd
+# 定义一个函数 传入年份 月份 
+# 把参数放进来
+def craw_table(year, month):
+    params = {
+    "areaInfo[areaId]": 54511,
+    "areaInfo[areaType]": 2,
+    # 把年和月替换成我们的参数 爬取对应的表格数据
+    "date[year]": year,
+    "date[month]": month
+}
+
+    resp = requests.get(url, headers=headers, params=params)
+    # 如果是200 说明请求成功
+    # print(resp.status_code)
+    # 然后就可以打印一下request到的内容
+    # print(resp.text)
+    data = resp.json()["data"]
+    # print(data)
+
+    # 提取一个字符串里的表格数据
+    # import pandas as pd
+    # 它直接就可以解析html 传入data字段 它可以解析这个网页中所有的表格 因为一个网页中会有很多个表格 我们取0 就是第一个表格
+    # pandas的核心概念叫做data frame（df）
+    # up主有专门的pandas的课程 后续可以学下
+    df = pd.read_html(data)[0]
+    # print(df.head())
+    # 这个打印可以看到表格的前几行
+    # 最后return一下df
+    return df
+
+# 我们来用一下这个方法
+df = craw_table(2015, 10)
+print(df.head())
+```
+
+结果：![image-20240319120831261](python爬虫入门实战案例教程-入门到精通（收藏版）.assets/image-20240319120831261.png)
+
+这样我们就输什么年月就能得到什么年月的内容了
+
+这样 我们就可以for循环 取十年的数据了
+
+craw_weather.py
+
+```python
+# 首先把请求的网址放到一个变量里
+url = "https://tianqi.2345.com/Pc/GetHistory"
+# 加上参数 复制payload的内容并改成字典的格式 加上”xxx“和逗号
+# params = {
+#     "areaInfo[areaId]": 54511,
+#     "areaInfo[areaType]": 2,
+#     "date[year]": 2014,
+#     "date[month]": 6
+# }
+# 然后我们再设一个headers 里面方法user-agent
+# 因为里面有可能有双引号 导致冲突 直接使用三引号就好了
+headers = {
+    "User-Agent" : """Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36""",
+    "Referer": "https://tianqi.2345.com/wea_history/54511.htm"
+    # Referer这个HTTP请求头部用于指示一个请求是从哪个页面发起的。
+    # 在网络爬虫或者API请求中，设置Referer头部可以模拟浏览器行为，因为正常用户浏览网页时，浏览器会自动添加这个头部。
+    # 如果一个网站只允许从特定页面发起的请求访问某些资源，没有正确的Referer头部，请求可能会被拒绝。
+
+}
+# 准备完毕 开始爬取
+
+import requests
+import pandas as pd
+# 定义一个函数 传入年份 月份 
+# 把参数放进来
+def craw_table(year, month):
+    params = {
+    "areaInfo[areaId]": 54511,
+    "areaInfo[areaType]": 2,
+    # 把年和月替换成我们的参数 爬取对应的表格数据
+    "date[year]": year,
+    "date[month]": month
+}
+
+    resp = requests.get(url, headers=headers, params=params)
+    # 如果是200 说明请求成功
+    # print(resp.status_code)
+    # 然后就可以打印一下request到的内容
+    # print(resp.text)
+    data = resp.json()["data"]
+    # print(data)
+
+    # 提取一个字符串里的表格数据
+    # import pandas as pd
+    # 它直接就可以解析html 传入data字段 它可以解析这个网页中所有的表格 因为一个网页中会有很多个表格 我们取0 就是第一个表格
+    # pandas的核心概念叫做data frame（df）
+    # up主有专门的pandas的课程 后续可以学下
+    df = pd.read_html(data)[0]
+    # print(df.head())
+    # 这个打印可以看到表格的前几行
+    # 最后return一下df
+    return df
+
+# 设一个df_list的列表
+df_list = []
+for year in range(2014, 2024):
+    for month in range(1, 13):
+        # 我们来用一下这个方法
+        df = craw_table(year, month)
+        # print(df.head())
+        # 想要合并打印出来
+        df_list.append(df)
+        # 到这步 这个df_list是很多年份的数据 然后就要把它合并已经保存到excel里
+        # 加个print追踪下进度
+        print("爬取：", year, month)
+# 然后就要把它合并已经保存到excel里 pandas有现成的方法
+pd.concat(df_list).to_excel("北京10年天气数据.xlsx", index=False)
+```
+
+结果：
+
+![image-20240319123358911](python爬虫入门实战案例教程-入门到精通（收藏版）.assets/image-20240319123358911.png)
+
+#### 【实战】批量爬取全本小说
+
+<img src="python爬虫入门实战案例教程-入门到精通（收藏版）.assets/image-20240319151123017.png" alt="image-20240319151123017" style="zoom:50%;" />
+
+先分析网页
+
+发现这个所有的都在dd标签里面
+
+代码：
+
+<img src="python爬虫入门实战案例教程-入门到精通（收藏版）.assets/image-20240319152153622.png" alt="image-20240319152153622" style="zoom:50%;" />
+
+main.py
+
+```python
+import requests
+from bs4 import BeautifulSoup
+
+def get_novel_chapters():
+    root_url ="http://www.89wxw.cn/0_9/"
+    r = requests.get(root_url)
+    print(r.status_code)
+    r.encoding="gbk"
+    soup = BeautifulSoup(r.text,"html.parser")
+
+    data = []
+    for dd in soup.find_all("dd"):
+        link = dd.find("a")
+        if not link:
+            continue
+        # 加个元组
+        data.append(("http://www.89wxw.cn%s"%link["href"], link.get_text()))
+    return data
+    # print(link)
+
+def get_chapter_content(url):
+    r = requests.get(url)
+    r.encoding="gbk"
+    soup = BeautifulSoup(r.text,"html.parser")
+    return soup.find("div", id='content').get_text()
+
+
+novel_chapters = get_novel_chapters()
+total_cnt = len(novel_chapters)
+idx = 0
+# get_novel_chapters()
+# 挨个打印每个章节的内容
+for chapter in novel_chapters:
+    # 打印一下进度
+    idx += 1
+    print(idx, total_cnt)
+    # print(chapter)
+# 这样就返回一个列表 这个列表每个元素都是两个子元素 第一个是每个正文的链接 第二个是每个正文的标题
+# 然后就可以去实现 每个标题对应的正文
+    url, title = chapter
+    with open("%s.txt"%title, "w")as fout:
+        fout.write(get_chapter_content(url))
+```
+
+小说爬取 用了两个函数来实现
+
+第一个函数 输入一个小说的首页  爬取每个章节的链接以及标题 
+
+我们得到一个列表以后 按个遍历每个章节的链接 以title得到每个章节的正文 用request和beautifulsoup很快能实现
+
+这个如果把fout写在外面 这样就可以按顺序 把所有的内容写到一个txt里面
 
 
 
+由于这个网站被封了 我打算自己从网上拉一本小说到本地
+
+网址：https://www.readnovel.com/book/12110374803718803
+
+分析网站：在这个里面就是小说的章节和网址信息
+
+![image-20240319171116109](python爬虫入门实战案例教程-入门到精通（收藏版）.assets/image-20240319171116109.png)
+
+main.py
+
+```python
+import requests
+from bs4 import BeautifulSoup
+
+def get_novel_chapters():
+    root_url = "https://www.readnovel.com/book/12110374803718803"
+    r = requests.get(root_url)
+    print(r.status_code)
+    soup = BeautifulSoup(r.text,"html.parser")
+    # print(soup)
+    
+    
+    links = soup.find_all("div", class_ = "volume")
+
+    # for div in soup.find_all("div", class_ = "volume"):
+    #     link = div.find("a")
+    #     if not link:
+    #         continue
+    #     print(link)
 
 
+    print(links)
 
 
-
-
-
-
+get_novel_chapters()
+```
 
 
 
