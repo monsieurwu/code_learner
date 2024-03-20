@@ -1929,3 +1929,63 @@ value中有个string 可以把一些文字 定义在这里面
 
 最后是跑马灯
 
+要有这个效果必须配单行形式的属性
+
+```xml
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+```
+
+必须设为焦点
+
+```
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+```
+
+##### Button
+
+这其实是TextView的一个子类
+
+<img src="JAVA&Android.assets/image-20240320135944215.png" alt="image-20240320135944215" style="zoom:67%;" />
+
+这个用xml可以直接制作出来 不需要任何的图片
+
+点击事件不仅可以button用 也可以text用 也可以给linerlayout一个点击事件 给view一个点击事件
+
+在xml文件中先搞一个button
+
+```xml
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_button"
+        android:text="Button"
+        >
+```
+
+然后在MainActivity.java里面声明控件
+
+```java
+private  Button mBtnButton;
+```
+
+然后绑定控件
+
+```java
+mBtnButton=findViewById(R.id.btn_button);
+```
+
+然后类型转换 把这个转换成Button
+
+新建一个activity
+
+![image-20240320152843260](JAVA&Android.assets/image-20240320152843260.png)
+
+新建的activity需要在manifest里面声明它
+
+会自动声明 如果没有声明就要写一下  不然是无法跳转到这个activity的
+
+![image-20240320153128946](JAVA&Android.assets/image-20240320153128946.png)
+
