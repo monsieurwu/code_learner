@@ -39,9 +39,7 @@ for h2_node in h2_nodes:
 然后对每个h2 我们查到了里面的超链接
 最后打印每个超链接里面的url 以及它的文本内容
 """
-print("#"*30)
-print(link)
-print("#"*30)
+
 
 
 

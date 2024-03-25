@@ -101,6 +101,12 @@ https://www.bilibili.com/video/BV1G7411t7zs/?spm_id_from=333.337.search-card.all
 
 
 
+#### 改ui为老的
+
+设置里面
+
+![image-20240322093709164](JAVA&Android.assets/image-20240322093709164.png)
+
 #### 1.安卓怎么运行
 
 学会看代码
@@ -1818,7 +1824,7 @@ Button一开始是红的 然后按alt+enter 上面会自动出现导入这个库
 
 ![image-20240315145229962](JAVA&Android.assets/image-20240315145229962.png)
 
-于是要父类转子类
+于是要父类转子类(实践中会报错)
 
 ```java
 mBtnTextView= this.<Button>findViewById(R.id.btn_textview);
@@ -1888,11 +1894,69 @@ public class MainActivity extends AppCompatActivity {
 
 修改这个新的activity的视图
 
+View > TextView > Button 在这个类里 只有子类可以用父类的 而不能父类用子类的
+
+这个地方如果定义类的时候设置为Button就会报错
+
+![image-20240325140007568](JAVA&Android.assets/image-20240325140007568.png)
+
+原因就是它是TextView类 不能往下设置
+
+
+
+```java
+package com.example.myapplication;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+    private TextView btn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        btn = findViewById(R.id.btn_textview);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, TextViewActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+
+
+    }
+}
+```
+
 
 
 value中有个string 可以把一些文字 定义在这里面
 
 ![image-20240315160809019](JAVA&Android.assets/image-20240315160809019.png)
+
+value/strings.xml
+
+```xml
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="tv_test">woowoowoo is running</string>
+</resources>
+```
+
+
 
 然后在视图里可能引用这里面定义的
 
@@ -1988,4 +2052,227 @@ mBtnButton=findViewById(R.id.btn_button);
 会自动声明 如果没有声明就要写一下  不然是无法跳转到这个activity的
 
 ![image-20240320153128946](JAVA&Android.assets/image-20240320153128946.png)
+
+.ButtonActivity的意思是包名+.ButtonActivity 
+
+跳转的地方就改成
+
+```java
+                Intent intent = new Intent(MainActivity.this, ButtonActivity.class);
+                startActivity(intent);
+```
+
+这段代码的作用就是在`MainActivity`中启动一个新的活动`ButtonActivity`。
+
+在drawable里面新建一个文件
+
+![image-20240321163202315](JAVA&Android.assets/image-20240321163202315.png)
+
+
+
+bg_btn.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid
+        android:color="#FF9900"/>
+    <corners
+        android:radius="10dp"/>
+
+</shape>
+```
+
+用xml也可以设计图片 用于添加
+
+当这个按钮被按压 会有颜色变化 没按压就保持原来的颜色
+
+![image-20240321165125660](JAVA&Android.assets/image-20240321165125660.png)
+
+把这个加到button的background就有按压效果了
+
+drawable/bg_btn.xml
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle">
+            <solid
+                android:color="#FF9900"/>
+            <corners
+                android:radius="10dp"/>
+
+        </shape>
+
+    </item>
+    <item android:state_pressed="false">
+        <shape>
+            <solid android:color="#FF9900"/>
+            <corners android:radius="5dp"/>
+
+        </shape>
+
+    </item>
+
+</selector>
+```
+
+之后这个就可以当作属性添加到布局文件中
+
+![image-20240325152954319](JAVA&Android.assets/image-20240325152954319.png)
+
+
+
+点击事件
+
+有两种方法
+
+![image-20240321173856621](JAVA&Android.assets/image-20240321173856621.png)
+
+一种是上面这种 在activity里面调用
+
+另一种是在activity里面写方法 然后在xml里面调用
+
+比如我在*activity_button.xml*里调用ButtonActivity.java里面的函数
+
+![image-20240325160150225](JAVA&Android.assets/image-20240325160150225.png)
+
+![image-20240325160132586](JAVA&Android.assets/image-20240325160132586.png)
+
+activity_button.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_btn"
+        android:layout_marginTop="20dp"
+        android:id="@+id/btn_button2"
+
+        android:onClick="showToast"
+        android:text="Button2"/>
+
+
+
+</LinearLayout>
+```
+
+ButtonActivity.java
+
+```java
+package com.example.myapplication;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
+public class ButtonActivity extends AppCompatActivity {
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_button);
+    }
+    public void showToast(View view) {
+        Toast.makeText(this,"clicked",Toast.LENGTH_SHORT).show();
+        //在界面上弹出一个提示信息
+    }
+
+
+
+
+}
+```
+
+
+
+
+
+##### EditText控件
+
+Button是Textview的一个子类
+
+EditText也是Textview的一个子类
+
+EditText是一个可以输入的一个控件
+
+![image-20240322095331298](JAVA&Android.assets/image-20240322095331298.png)
+
+登录界面：两个输入框+登录键
+
+1.先声明控件
+
+![image-20240325162108948](JAVA&Android.assets/image-20240325162108948.png)
+
+2.找到控件
+
+![image-20240325163408496](JAVA&Android.assets/image-20240325163408496.png)
+
+3.设置它的点击事件
+
+![image-20240325163744380](JAVA&Android.assets/image-20240325163744380.png)
+
+4.新建一个activity
+
+5.manifest里面添加上新的activity
+
+6.在edittext activity的xml文件中写layout
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:padding="15dp"
+    android:layout_height="match_parent">
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/et_1"
+        android:textSize="16sp"
+        android:textColor="#FFAD33"
+        android:hint="username"
+        android:layout_height="50dp">
+
+    </EditText>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/et_2"
+        android:layout_below="@id/et_1"
+        android:layout_marginTop="15dp"
+        android:inputType="textPassword"
+
+        android:textSize="20sp"
+        android:textColor="#FFAD33"
+        android:hint="password"
+        android:layout_height="50dp">
+
+    </EditText>
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/et_3"
+        android:layout_below="@id/et_2"
+        android:textSize="16sp"
+        android:textColor="#FFAD33"
+        android:hint="phone number"
+        android:inputType="number"
+        android:layout_height="50dp">
+
+    </EditText>
+
+</RelativeLayout>
+```
+
+
 
