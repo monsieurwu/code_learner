@@ -1,0 +1,110 @@
+[
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\mipmap-hdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\drawable_fan.png.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\drawable\\fan.png"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\drawable_pm.png.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\drawable\\pm.png"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\xml_data_extraction_rules.xml.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\xml\\data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.example.woowoowoo.app-merged_res-31:/drawable_light_off.png.flat",
+        "source": "com.example.woowoowoo.app-main-33:/drawable/light_off.png"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\mipmap-xxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\mipmap-hdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\drawable_door_security.png.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\drawable\\door_security.png"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\drawable_open.png.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\drawable\\open.png"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\mipmap-mdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\mipmap-xxxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\drawable_temp.png.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\drawable\\temp.png"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\xml_backup_rules.xml.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\xml\\backup_rules.xml"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\mipmap-xhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\mipmap-xxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\mipmap-mdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\drawable_dolphin.png.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\drawable\\dolphin.png"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\drawable_light.png.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\drawable\\light.png"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\mipmap-xhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.woowoowoo.app-merged_res-31:/layout_activity_main.xml.flat",
+        "source": "com.example.woowoowoo.app-main-33:/layout/activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\layout_activity_main.xml.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\drawable_radar.png.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\drawable\\radar.png"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-merged_res-31:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\wu.jianwei\\.gradle\\daemon\\8.2\\com.example.woowoowoo.app-main-33:\\drawable\\ic_launcher_foreground.xml"
+    }
+]

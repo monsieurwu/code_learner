@@ -2242,6 +2242,12 @@ EditText是一个可以输入的一个控件
         android:textSize="16sp"
         android:textColor="#FFAD33"
         android:hint="username"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        android:drawableLeft="@drawable/user"
+        
+        android:maxLines="1"
+        android:background="@drawable/bg_btn2"
         android:layout_height="50dp">
 
     </EditText>
@@ -2252,9 +2258,11 @@ EditText是一个可以输入的一个控件
         android:layout_below="@id/et_1"
         android:layout_marginTop="15dp"
         android:inputType="textPassword"
-
+        android:drawableLeft="@drawable/password"
+        android:maxLines="1"
         android:textSize="20sp"
         android:textColor="#FFAD33"
+
         android:hint="password"
         android:layout_height="50dp">
 
@@ -2270,6 +2278,537 @@ EditText是一个可以输入的一个控件
         android:layout_height="50dp">
 
     </EditText>
+    <Button
+        android:layout_width="match_parent"
+        android:id="@+id/btn_login"
+        android:background="@drawable/bg_btn"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/et_3"
+        android:text="Log in"
+        android:textColor="#fff"
+        android:textSize="20dp"
+        android:layout_height="50dp">
+
+    </Button>
+
+</RelativeLayout>
+```
+
+加圆角的background
+
+bg_btn2.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <stroke
+        android:width="2dp"
+        android:color="#999999"/>
+    <corners
+        android:radius="5dp"/>
+
+</shape>
+```
+
+![image-20240326093731647](JAVA&Android.assets/image-20240326093731647.png)
+
+监听输入内容
+
+1.声明控件
+
+![image-20240326095901312](JAVA&Android.assets/image-20240326095901312.png)
+
+2.找到控件
+
+![image-20240326100037888](JAVA&Android.assets/image-20240326100037888.png)
+
+3.设置事件
+
+![image-20240326100442124](JAVA&Android.assets/image-20240326100442124.png)
+
+分别是文字改变之前 之中 之后
+
+CharSequence s中的s就是当前 输入框里面的内容 我们可以把它打印出来
+
+在logcat里就能监听到输入内容
+
+EditTextActivity.java
+
+```java
+package com.example.myapplication;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class EditTextActivity extends AppCompatActivity {
+    private Button mBtnLogin;
+    private EditText mEtUserName;
+    private EditText mEtPassWord;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_edit_text);
+
+        mBtnLogin = findViewById(R.id.btn_login);
+        mBtnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(EditTextActivity.this, "login in success", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mEtUserName = findViewById(R.id.et_1);
+        //使用代码动态调整图标大小
+        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.user);
+        if (drawable != null) {
+            drawable.setBounds(0, 0, 60, 60); // 设置图标大小
+            mEtUserName.setCompoundDrawables(drawable, null, null, null);
+        }
+        mEtUserName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d("editted",s.toString());
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        mEtPassWord = findViewById(R.id.et_2);
+        Drawable drawable2 = ContextCompat.getDrawable(this, R.drawable.password);
+        if (drawable != null) {
+            drawable.setBounds(0, 0, 60, 60); // 设置图标大小
+            mEtPassWord.setCompoundDrawables(drawable, null, null, null);
+        }
+
+
+    }
+}
+```
+
+![企业微信截图_20240326110010](JAVA&Android.assets/企业微信截图_20240326110010.png)
+
+##### Radio Button
+
+一组里面单选 就用这个
+
+![image-20240326110335261](JAVA&Android.assets/image-20240326110335261.png)
+
+通过调用函数来实现之前的功能
+
+TextViewActivity.java
+
+```java
+package com.example.myapplication;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.graphics.Paint;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class TextViewActivity extends AppCompatActivity {
+    private TextView mTv4;
+    private Button mBtnButton;
+    private Button mBtmEditButton;
+    private Button mBtnRadioButton;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_text_view);
+        mTv4 = findViewById(R.id.tv_3);
+        mTv4.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        mTv4.getPaint().setAntiAlias(true);
+
+        mBtnButton = findViewById(R.id.btn_button);
+        mBtmEditButton = findViewById(R.id.btn_button3);
+        mBtnRadioButton = findViewById(R.id.btn_radiobutton);
+        setListeners();
+    }
+
+    //再写一个监听器
+    private void setListeners(){
+        OnClick onClick = new OnClick();
+        mBtnButton.setOnClickListener(onClick);
+        mBtmEditButton.setOnClickListener(onClick);
+        mBtnRadioButton.setOnClickListener(onClick);
+    }
+
+    //写一个类 实现调用一个接口
+    private class OnClick implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = null;
+            int viewId = v.getId();
+
+            if (viewId == R.id.btn_button) {
+                intent = new Intent(TextViewActivity.this, ButtonActivity.class);
+            } else if (viewId == R.id.btn_button3) {
+                intent = new Intent(TextViewActivity.this, EditTextActivity.class);
+            } else if (viewId == R.id.btn_radiobutton) {
+                intent = new Intent(TextViewActivity.this, RadioButtonActivity.class);
+            }
+
+            startActivity(intent);
+        }
+    }
+
+}
+```
+
+开始设计radiobutton
+
+activity_radio_button.xml
+
+```xml
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:id="@+id/rb_1"
+        android:text="男"
+        android:textSize="18sp"
+        android:textColor="#FF6600"
+        android:layout_height="wrap_content">
+
+    </RadioButton>
+```
+
+![image-20240326143819313](JAVA&Android.assets/image-20240326143819313.png)
+
+做一个选择男或者女的 结合radio group来使用 选中男就不会选中女 因为他们在一个组里面
+
+activity_radio_button.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:padding="15dp"
+    android:layout_height="match_parent">
+    <RadioGroup
+        android:id="@+id/rg_1"
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:id="@+id/rb_1"
+            android:text="男"
+            android:textSize="18sp"
+            android:textColor="#FF6600"
+            android:layout_height="wrap_content">
+
+        </RadioButton>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:id="@+id/rb_2"
+            android:text="女"
+            android:textSize="18sp"
+            android:textColor="#FF6600"
+            android:layout_height="wrap_content">
+
+        </RadioButton>
+    </RadioGroup>
+    
+
+</RelativeLayout>
+```
+
+可以加默认选项
+
+activity_radio_button.xml
+
+```xml
+ <RadioButton
+            android:layout_width="wrap_content"
+            android:id="@+id/rb_1"
+            android:text="男"
+            android:checked="true"
+            android:textSize="18sp"
+            android:textColor="#FF6600"
+            android:layout_height="wrap_content">
+
+        </RadioButton>
+```
+
+注意：radiobutton一定要加id 否则就失效了
+
+设置监听事件
+
+1.使用控件前 先声明控件
+
+![image-20240326153028155](JAVA&Android.assets/image-20240326153028155.png)
+
+2. 找到控件
+
+   ![image-20240326153240691](JAVA&Android.assets/image-20240326153240691.png)
+
+3.设置事件
+
+效果：发生变化的时候触发监听事件
+
+RadioButtonActivity.java
+
+```java
+package com.example.myapplication;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+
+public class RadioButtonActivity extends AppCompatActivity {
+    private RadioGroup mRg1;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_radio_button);
+        mRg1 = (RadioGroup) findViewById(R.id.rg_1);
+        mRg1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton radioButton = group.findViewById(checkedId);
+                Toast.makeText(RadioButtonActivity.this, radioButton.getText(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }
+}
+```
+
+##### 复选框checkbox
+
+![image-20240326163501351](JAVA&Android.assets/image-20240326163501351.png)
+
+可以选择多个 并且选择后再选一下 可以取消选择
+
+CheckBoxActivity.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:padding="15dp"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="what system do you use?"
+        android:textSize="20sp"
+        android:id="@+id/tv_1"
+        android:layout_marginBottom="10dp"
+
+        android:layout_height="wrap_content">
+
+
+
+    </TextView>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:id="@+id/cb_1"
+        android:layout_below="@id/tv_1"
+        android:text="Android"
+        android:textSize="20sp"
+
+        android:layout_height="wrap_content">
+
+    </CheckBox>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:id="@+id/cb_2"
+        android:layout_below="@id/cb_1"
+        android:text="Linux"
+        android:textSize="20sp"
+
+        android:layout_height="wrap_content">
+
+    </CheckBox>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:id="@+id/cb_3"
+        android:layout_below="@id/cb_2"
+        android:text="ios"
+        android:textSize="20sp"
+
+        android:layout_height="wrap_content">
+
+    </CheckBox>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:id="@+id/cb_4"
+        android:layout_below="@id/cb_3"
+        android:text="Windows"
+        android:textSize="20sp"
+
+        android:layout_height="wrap_content">
+
+    </CheckBox>
+
+</RelativeLayout>
+```
+
+![image-20240326170157231](JAVA&Android.assets/image-20240326170157231.png)
+
+设置状态发生变化的发生事件
+
+1.声明控件
+
+![image-20240326170451325](JAVA&Android.assets/image-20240326170451325.png)
+
+2.找到控件
+
+![image-20240326171104080](JAVA&Android.assets/image-20240326171104080.png)
+
+3.写方法
+
+![image-20240326171126095](JAVA&Android.assets/image-20240326171126095.png)
+
+CheckBoxActivity.java
+
+```java
+package com.example.myapplication;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.Toast;
+
+public class CheckBoxActivity extends AppCompatActivity {
+    private CheckBox mCb1, mCb2, mCb3, mCb4;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_check_box);
+        mCb1 = findViewById(R.id.cb_1);
+        mCb2 = findViewById(R.id.cb_2);
+        mCb3 = findViewById(R.id.cb_3);
+        mCb4 = findViewById(R.id.cb_4);
+        mCb1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Toast.makeText(CheckBoxActivity.this, isChecked?"Android选中":"Android选中未选中", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mCb2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Toast.makeText(CheckBoxActivity.this, isChecked?"Linux选中":"Linux未选中", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mCb3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Toast.makeText(CheckBoxActivity.this, isChecked?"ios选中":"ios未选中", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mCb4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Toast.makeText(CheckBoxActivity.this, isChecked?"Windows选中":"Windows未选中", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+}
+```
+
+activity_check_box.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:padding="15dp"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="what system do you use?"
+        android:textSize="20sp"
+        android:id="@+id/tv_1"
+        android:layout_marginBottom="10dp"
+
+        android:layout_height="wrap_content">
+
+
+
+    </TextView>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:id="@+id/cb_1"
+        android:layout_below="@id/tv_1"
+        android:text="Android"
+        android:textSize="20sp"
+
+        android:layout_height="wrap_content">
+
+    </CheckBox>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:id="@+id/cb_2"
+        android:layout_below="@id/cb_1"
+        android:text="Linux"
+        android:textSize="20sp"
+
+        android:layout_height="wrap_content">
+
+    </CheckBox>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:id="@+id/cb_3"
+        android:layout_below="@id/cb_2"
+        android:text="ios"
+        android:textSize="20sp"
+
+        android:layout_height="wrap_content">
+
+    </CheckBox>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:id="@+id/cb_4"
+        android:layout_below="@id/cb_3"
+        android:text="Windows"
+        android:textSize="20sp"
+
+        android:layout_height="wrap_content">
+
+    </CheckBox>
 
 </RelativeLayout>
 ```

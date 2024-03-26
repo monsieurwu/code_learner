@@ -1,0 +1,25 @@
+R_DEF: Internal format may change without notice
+local
+color black
+color white
+drawable dolphin
+drawable door_security
+drawable fan
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+drawable light
+drawable light_off
+drawable open
+drawable pm
+drawable radar
+drawable temp
+id image_1
+id text_test
+layout activity_main
+mipmap ic_launcher
+mipmap ic_launcher_round
+string app_name
+style Base.Theme.Woowoowoo
+style Theme.Woowoowoo
+xml backup_rules
+xml data_extraction_rules
